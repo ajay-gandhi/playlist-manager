@@ -10,6 +10,13 @@ module.exports.fyShuffle = (list) => {
   return newList;
 };
 
+module.exports.argsToArray = (args) => {
+  const list = [];
+  const numArgs = Object.keys(args).length;
+  for (let i = 0; i < numArgs; i++) list.push(args[i]);
+  return list;
+};
+
 const cloneGeneric = (input) => {
   if (typeof input === "object") {
     if (input instanceof Array) {

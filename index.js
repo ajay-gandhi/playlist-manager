@@ -15,18 +15,32 @@ function Playlist(initItems, initShuffle, initRepeat) {
 }
 
 Playlist.prototype.setItems = function(items) {
-  this.items = items;
-  this.queue = this.shuffle ? Util.fyShuffle(items) : Util.clone(items);
+  if (!(items instanceof Array)) {
+    this.setItems(Util.argsToArray(arguments));
+  } else {
+    this.items = items;
+    this.queue = this.shuffle ? Util.fyShuffle(items) : Util.clone(items);
+  }
 }
 
-Playlist.prototype.addItem = function(item) {
-  this.items.push(item);
-  this.queue.push(Util.clone(item));
+Playlist.prototype.addItems = function(items) {
+  if (!(items instanceof Array)) {
+    this.addItems(Util.argsToArray(arguments));
+  } else {
+    this.items = this.items.concat(Util.clone(items));
+    this.queue = this.queue.concat(Util.clone(items));
+  }
 }
 
-Playlist.prototype.removeItem = function(id) {
-  this.items = this.items.filter(i => i.id !== id);
-  this.queue = this.queue.filter(i => i.id !== id);
+Playlist.prototype.removeItems = function(ids) {
+  if (!(ids instanceof Array)) {
+    return this.removeItems(Util.argsToArray(arguments));
+  } else {
+    const result = this.items.filter(i => ids.includes(i.id));
+    this.items = this.items.filter(i => !ids.includes(i.id));
+    this.queue = this.queue.filter(i => !ids.includes(i.id));
+    return result;
+  }
 }
 
 Playlist.prototype.toggleShuffle = function(val) {
