@@ -10,7 +10,29 @@ module.exports.fyShuffle = (list) => {
   return newList;
 };
 
+const cloneGeneric = (input) => {
+  if (typeof input === "object") {
+    if (input instanceof Array) {
+      return input.map(cloneGeneric);
+    } else if (input.clone) {
+      return input.clone();
+    } else {
+      const newObj = {};
+      Object.keys(input).forEach(key => newObj[key] = cloneGeneric(input[key]));
+      return newObj;
+    }
+  } else {
+    return input;
+  }
+};
 const clone = (list, n) => {
-  return list.slice(n || list.length);
+  if (!(input instanceof Array)) return cloneGeneric(list);
+
+  const newLength = n || list.length;
+  const newList = [];
+  for (let i = 0; i < newLength; i++) {
+    newList.push(cloneGeneric(list[i]));
+  }
+  return newList;
 };
 module.exports.clone = clone;

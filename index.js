@@ -1,7 +1,7 @@
 const Util = require("./util");
 
 function Playlist(initItems, initShuffle, initRepeat) {
-  this.items = initItems || [];
+  this.items = initItems ? Util.clone(initItems) : [];
   this.queue = initItems ? Util.clone(initItems) : [];
   this.history = [];
   this.shuffle = initShuffle || false;
@@ -21,7 +21,12 @@ Playlist.prototype.setItems = function(items) {
 
 Playlist.prototype.addItem = function(item) {
   this.items.push(item);
-  this.queue.push(item);
+  this.queue.push(Util.clone(item));
+}
+
+Playlist.prototype.removeItem = function(id) {
+  this.items = this.items.filter(i => i.id !== id);
+  this.queue = this.queue.filter(i => i.id !== id);
 }
 
 Playlist.prototype.toggleShuffle = function(val) {
