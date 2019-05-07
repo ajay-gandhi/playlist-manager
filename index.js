@@ -1,17 +1,24 @@
 const Util = require("./util");
 
-function Playlist(initItems, initShuffle, initRepeat) {
-  this.items = initItems ? Util.clone(initItems) : [];
-  this.queue = initItems ? Util.clone(initItems) : [];
+const DEFAULTS = {
+  items: [],
+  default_queue_items: -1,
+  max_history: 20,
+  shuffle: false,
+  repeat: false,
+};
+
+function Playlist(opts) {
+  const init = opts ? { ...DEFAULTS, ...opts } : DEFAULTS;
+  this.items = Util.clone(init.items);
+
+  this.queue = Util.clone(init.items);
+  this.default_queue_items = init.default_queue_items;
   this.history = [];
-  this.shuffle = initShuffle || false;
-  this.repeat = initRepeat || false;
+  this.max_history = init.max_history;
 
-  // this.REPEAT_OFF = 0;
-  // this.REPEAT_ALL = 1;
-  // this.REPEAT_ONE = 2;
-
-  this.default_queue_items = -1;
+  this.shuffle = init.shuffle;
+  this.repeat = init.repeat;
 }
 
 // HIDE THIS
@@ -62,11 +69,16 @@ Playlist.prototype.getQueue = function(num) {
   if (num) {
     if (num > this.queue.length) {
       // Requested length exceeds length of queue
-      // Keep appending to queue until we've achieved proper length
-      while (this.queue.length < num) {
-        this.queue = this.queue.concat(this.genQueue());
+      if (this.repeat) {
+        // Keep appending to queue until we've achieved proper length
+        while (this.queue.length < num) {
+          this.queue = this.queue.concat(this.genQueue());
+        }
+        return Util.clone(this.queue, num);
+      } else {
+        // Repeat is off, so just return queue as it is
+        return Util.clone(this.queue);
       }
-      return Util.clone(this.queue, num);
     } else {
       // Cut queue by requested length
       return Util.clone(this.queue, num);
@@ -78,12 +90,19 @@ Playlist.prototype.getQueue = function(num) {
 }
 
 Playlist.prototype.next = function() {
-  if (this.queue.length === 0) this.queue = this.genQueue();
+  if (this.queue.length === 0) {
+    if (this.repeat) this.queue = this.genQueue();
+    else             return false;
+  }
   this.history.unshift(this.queue.shift());
+  if (this.history.length > this.max_history) this.history.pop();
+  return true;
 }
 
 Playlist.prototype.prev = function() {
+  if (history.length === 0) return false;
   this.queue.unshift(this.history.shift());
+  return true;
 }
 
 module.exports = Playlist;
