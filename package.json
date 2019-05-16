@@ -1,0 +1,30 @@
+{
+  "name": "playlist-manager",
+  "version": "1.0.0",
+  "description": "Manage a playlist of items",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^24.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajay-gandhi/playlist-manager.git"
+  },
+  "keywords": [
+    "playlist",
+    "music"
+  ],
+  "author": "Ajay Gandhi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ajay-gandhi/playlist-manager/issues"
+  },
+  "homepage": "https://github.com/ajay-gandhi/playlist-manager#readme"
+}

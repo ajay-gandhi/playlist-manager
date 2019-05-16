@@ -33,7 +33,7 @@ const cloneGeneric = (input) => {
   }
 };
 const clone = (list, n) => {
-  if (!(input instanceof Array)) return cloneGeneric(list);
+  if (!(list instanceof Array)) return cloneGeneric(list);
 
   const newLength = n || list.length;
   const newList = [];

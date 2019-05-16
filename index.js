@@ -64,8 +64,8 @@ Playlist.prototype.toggleRepeat = function(val) {
   this.repeat = val === undefined ? !this.repeat : val;
 }
 
-Playlist.prototype.getQueue = function(num) {
-  const num = num || (this.default_queue_items > 0 ? this.default_queue_items : false);
+Playlist.prototype.getQueue = function(inp) {
+  const num = inp || (this.default_queue_items > 0 ? this.default_queue_items : false);
   if (num) {
     if (num > this.queue.length) {
       // Requested length exceeds length of queue
