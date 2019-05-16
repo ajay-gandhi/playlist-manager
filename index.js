@@ -30,7 +30,7 @@ Playlist.prototype.setItems = function(items) {
   if (!(items instanceof Array)) {
     this.setItems(Util.argsToArray(arguments));
   } else {
-    this.items = items;
+    this.items = Util.clone(items);
     this.queue = this.genQueue();
   }
 }
