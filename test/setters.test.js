@@ -73,3 +73,34 @@ describe("addItems", () => {
     expect(playlist.items[0]).not.toEqual(item);
   });
 });
+
+describe("removeItems", () => {
+  test("removes one item", () => {
+    const playlist = new Playlist();
+    playlist.setItems(args);
+    playlist.removeItems(3);
+    expect(playlist.items).toEqual(args.filter(o => o.id !== 3));
+  });
+
+  test("removes multiple items", () => {
+    const playlist = new Playlist();
+    playlist.setItems(args);
+    playlist.removeItems([2, 5]);
+    expect(playlist.items).toEqual(args.filter(o => o.id !== 2 && o.id !== 5));
+  });
+
+  test("removes given args", () => {
+    const playlist = new Playlist();
+    playlist.setItems(args);
+    playlist.removeItems(2, 5);
+    expect(playlist.items).toEqual(args.filter(o => o.id !== 2 && o.id !== 5));
+  });
+
+  test("returns removed items", () => {
+    const playlist = new Playlist();
+    playlist.setItems(args);
+    const returned = playlist.removeItems(2, 5);
+    expect(playlist.items).toEqual(args.filter(o => o.id !== 2 && o.id !== 5));
+    expect(returned).toEqual([args[1], args[4]]);
+  });
+});
