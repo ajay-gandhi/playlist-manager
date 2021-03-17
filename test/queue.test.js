@@ -73,3 +73,18 @@ describe("removeItems", () => {
     expect(playlist.getQueue()).toEqual([{ id: 2, value: "b" }]);
   });
 });
+
+describe("toggleShuffle", () => {
+  test("shuffles the queue", () => {
+    const playlist = new Playlist({ items: genArr(10) });
+    playlist.toggleShuffle();
+    expect(playlist.getQueue()).not.toEqual(genArr(10));
+  });
+
+  test("unshuffles the queue", () => {
+    const playlist = new Playlist({ items: genArr(10) });
+    playlist.toggleShuffle();
+    playlist.toggleShuffle();
+    expect(playlist.getQueue()).toEqual(genArr(10));
+  });
+});
